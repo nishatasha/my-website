@@ -108,22 +108,25 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   
     // Scroll to top button
-    const scrollTopBtn = document.querySelector(".scroll-top")
-  
+
+    const scrollTopBtn = document.querySelector(".scroll-top");
+
     window.addEventListener("scroll", () => {
       if (window.scrollY > 500) {
-        scrollTopBtn.classList.add("active")
+        scrollTopBtn.classList.add("active");
       } else {
-        scrollTopBtn.classList.remove("active")
+        scrollTopBtn.classList.remove("active");
       }
-    })
-  
+    });
+
     scrollTopBtn.addEventListener("click", () => {
       window.scrollTo({
         top: 0,
         behavior: "smooth",
-      })
-    })
+      });
+    });
+
+
   
     // Skills tabs
     const skillTabs = document.querySelectorAll(".skill-tab")
@@ -371,138 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
   
-    // Skill Match Analyzer
-    const analyzeSkillsBtn = document.getElementById("analyzeSkills")
-    const skillMatchResults = document.getElementById("skillMatchResults")
-    const skillMatchPlaceholder = document.querySelector(".skill-match-placeholder")
-  
-    if (analyzeSkillsBtn) {
-      analyzeSkillsBtn.addEventListener("click", () => {
-        const jobDescription = document.getElementById("jobDescription").value.toLowerCase()
-  
-        if (!jobDescription) {
-          skillMatchResults.innerHTML = '<div class="skill-match-error">Please paste a job description to analyze.</div>'
-          return
-        }
-  
-        // Hide placeholder
-        skillMatchPlaceholder.style.display = "none"
-  
-        // Show loading
-        skillMatchResults.innerHTML = '<div class="skill-match-loading">Analyzing job description...</div>'
-  
-        // Define skills to look for
-        const skillCategories = {
-          frontend: [
-            "html",
-            "css",
-            "javascript",
-            "react",
-            "vue",
-            "angular",
-            "responsive",
-            "sass",
-            "less",
-            "webpack",
-            "babel",
-          ],
-          backend: ["node", "express", "mongodb", "sql", "database", "api", "rest", "graphql", "php", "python", "java"],
-          devops: ["git", "ci/cd", "docker", "kubernetes", "aws", "cloud", "deployment", "jenkins", "terraform"],
-          soft: ["team", "communication", "problem solving", "agile", "scrum", "leadership", "collaboration"],
-        }
-  
-        // Simulate analysis
-        setTimeout(() => {
-          // Count matches
-          const matches = {}
-          let totalMatches = 0
-          let totalSkills = 0
-  
-          for (const category in skillCategories) {
-            matches[category] = {
-              matched: [],
-              total: skillCategories[category].length,
-            }
-  
-            skillCategories[category].forEach((skill) => {
-              if (jobDescription.includes(skill)) {
-                matches[category].matched.push(skill)
-                totalMatches++
-              }
-              totalSkills++
-            })
-          }
-  
-          // Calculate match percentage
-          const matchPercentage = Math.round((totalMatches / totalSkills) * 100)
-  
-          // Generate results HTML
-          let resultsHTML = `
-            <div class="skill-match-summary">
-              <div class="match-percentage">
-                <div class="percentage-circle" style="--percentage: ${matchPercentage}%">
-                  <div class="percentage-number">${matchPercentage}%</div>
-                </div>
-              </div>
-              <div class="match-text">
-                <h3>Overall Match</h3>
-                <p>${getMatchMessage(matchPercentage)}</p>
-              </div>
-            </div>
-            <div class="skill-match-details">
-          `
-  
-          // Add category results
-          for (const category in matches) {
-            const categoryMatches = matches[category].matched.length
-            const categoryTotal = matches[category].total
-            const categoryPercentage = Math.round((categoryMatches / categoryTotal) * 100)
-  
-            resultsHTML += `
-              <div class="skill-category">
-                <h4>${capitalizeFirstLetter(category)} Skills</h4>
-                <div class="skill-bar-container">
-                  <div class="skill-bar" style="width: ${categoryPercentage}%"></div>
-                  <span class="skill-percentage">${categoryPercentage}%</span>
-                </div>
-                <div class="matched-skills">
-                  ${
-                    matches[category].matched.length > 0
-                      ? `<p>Matched: ${matches[category].matched.map((s) => `<span class="skill-tag">${s}</span>`).join(" ")}`
-                      : "<p>No matches found in this category</p>"
-                  }
-                </div>
-              </div>
-            `
-          }
-  
-          resultsHTML += `</div>`
-  
-          // Update results
-          skillMatchResults.innerHTML = resultsHTML
-  
-          // Show toast
-          showToast("Skill analysis complete!", "success")
-        }, 2000)
-      })
-    }
-  
-    // Helper function for skill match messages
-    function getMatchMessage(percentage) {
-      if (percentage >= 90) {
-        return "Excellent match! You have most of the skills required for this position."
-      } else if (percentage >= 70) {
-        return "Good match! You have many of the skills required for this position."
-      } else if (percentage >= 50) {
-        return "Moderate match. You have some of the skills required, but may need to highlight transferable skills."
-      } else {
-        return "This position may require skills outside your current portfolio. Consider focusing on transferable skills."
-      }
-    }
-  
-    function capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    }
+
   
     // Form tabs
     const formTabs = document.querySelectorAll(".form-tab")
